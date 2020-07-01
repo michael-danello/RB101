@@ -11,3 +11,5 @@ loan_months: "Please enter the total duration of your loan in months"
 loan_months_error : "Oops...looks like like that loan total isn't valid. try again"
 
 another_calc_error : "Hmmm, I didn't recognize that input. Try again?"
+
+goodbye: "Thanks for using mortgage calculator! Bye!"

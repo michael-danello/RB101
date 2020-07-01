@@ -99,8 +99,10 @@ loop do
     break
   end
   if another.downcase == 'y'
+    system("clear")
     next
   else
+    prompt(MESSAGES["goodbye"])
     break
   end
 end
