@@ -1,0 +1,13 @@
+welcome : "Hi! Welcome to Mortgage Calculator. Please enter your name:"
+name_error : "Oops...looks like your name isn't valid. Try again?"
+
+apr : "Please enter an Annual Percentage Rate from 0 to 100"
+apr_error : "Oops...looks like your APR isn't valid. Try again?"
+
+loan_total : "Please enter the total amount of your loan in dollars"
+loan_total_error : "Oops...looks like that loan total isn't valid. Try again"
+
+loan_months: "Please enter the total duration of your loan in months"
+loan_months_error : "Oops...looks like like that loan total isn't valid. try again"
+
+another_calc_error : "Hmmm, I didn't recognize that input. Try again?"
