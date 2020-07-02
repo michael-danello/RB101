@@ -14,8 +14,20 @@ def valid_num?(num)
   valid_float?(num) || valid_int?(num)
 end
 
-def valid_apr(num)
-  valid_num?(num) && (num.to_i >= 0 && num.to_i <= 100)
+def valid_apr?(num)
+  valid_num?(num) && (num.to_i > 0 && num.to_i <= 100)
+end
+
+def valid_loan_months?(months)
+  valid_num?(months) && months.to_i > 0
+end
+
+def valid_loan_total?(loan_total)
+  valid_loan_months?(loan_total)
+end
+
+def valid_calc_again?(calc_again)
+  calc_again.downcase == 'y' || calc_again.downcase == 'n'
 end
 
 def valid_name?(name)
@@ -30,75 +42,43 @@ def calculate_payment(monthly, loan_total, loan_months)
   loan_total * (monthly / (1 - (1 + monthly)**(-loan_months)))
 end
 
-name = nil
-prompt(MESSAGES["welcome"])
-loop do
-  name = gets.chomp
-  if valid_name?(name)
-    break
-  else
-    prompt(MESSAGES["name_error"])
+def valid_input?(input_type, input)
+  case input_type
+  when "apr"
+    valid_apr?(input)
+  when "loan_months"
+    valid_loan_months?(input)
+  when "loan_total"
+    valid_loan_total?(input)
+  when "calc_again"
+    valid_calc_again?(input)
   end
 end
 
+def retrieve_input(input_type)
+  puts(MESSAGES[input_type])
+  input = ''
+  loop do
+    input = gets.chomp
+    break if valid_input?(input_type, input)
+    puts MESSAGES["#{input_type}_error"]
+  end
+  input
+end
+
+prompt(MESSAGES["welcome"])
+
 loop do
-  prompt("Hi #{name}: " + MESSAGES["apr"])
-  apr = nil
-  loop do
-    apr = gets.chomp
-    if valid_apr(apr)
-      apr = apr.to_f / 12
-      break
-    else
-      prompt(MESSAGES["apr_error"])
-    end
-  end
+  apr = retrieve_input("apr").to_f
+  loan_months = retrieve_input("loan_months").to_f
+  loan_total = retrieve_input("loan_total").to_f
 
-  prompt(MESSAGES["loan_total"])
-  loan_total = nil
-  loop do
-    loan_total = gets.chomp
-    if valid_num?(loan_total)
-      loan_total = loan_total.to_f
-      break
-    else
-      prompt(MESSAGES["loan_total_error"])
-    end
-  end
+  monthly = calculate_payment((apr) / 100 / 12, loan_total, loan_months)
 
-  prompt(MESSAGES["loan_months"])
-  loan_months = nil
-  loop do
-    loan_months = gets.chomp
-    if valid_num?(loan_months)
-      loan_months = loan_months.to_f
-      break
-    else
-      prompt(MESSAGES["loan_months_error"])
-    end
-  end
-
-  monthly = calculate_payment((apr) / 100, loan_total, loan_months)
-  calc_message = <<-MSG
-  With a an apr of #{apr},
-  a loan duration of #{loan_months.to_i} months
-  and a loan total payment of $#{loan_total},
-  your monthly payment will be $#{monthly}
-  MSG
-
-  prompt(calc_message)
-
-  prompt("Would you like to perfrom another calculation (y/n)")
-  another = nil
-  loop do
-    another = gets.chomp
-    if !another.include?('y') && !another.include?('n')
-      prompt(MESSAGES["another_calc_error"])
-      next
-    end
-    break
-  end
-  if another.downcase == 'y'
+  prompt(format(MESSAGES["calc_message"], apr: apr, loan_months: loan_months,
+  loan_total: loan_total, monthly: monthly))
+  calc_again = retrieve_input("calc_again")
+  if calc_again.downcase == 'y'
     system("clear")
     next
   else

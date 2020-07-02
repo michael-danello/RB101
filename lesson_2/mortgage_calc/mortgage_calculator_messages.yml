@@ -10,6 +10,12 @@ loan_total_error : "Oops...looks like that loan total isn't valid. Try again"
 loan_months: "Please enter the total duration of your loan in months"
 loan_months_error : "Oops...looks like like that loan total isn't valid. try again"
 
-another_calc_error : "Hmmm, I didn't recognize that input. Try again?"
+calc_again : prompt("Would you like to perfrom another calculation (y/n)")
+calc_again_error : "Hmmm, I didn't recognize that input. Try again?"
 
 goodbye: "Thanks for using mortgage calculator! Bye!"
+
+calc_message: "With a an apr of %{apr},
+a loan duration of %{loan_months} months
+and a loan total payment of %{loan_total},
+your monthly payment will be %{monthly}"
