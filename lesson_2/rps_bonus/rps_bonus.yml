@@ -1,0 +1,10 @@
+welcome : |+
+  Welcome to Rock, Paper, Scissors, Lizard Spock. The first competitor to
+  five wins will be declared the grand winner. Good luck! Let's get started
+
+ambigious_input : "Please enter sp for spock or sc for scissors"
+invalid_choice : "That's not a valid choice"
+win : "You win"
+lose : "You lose"
+tie : "It's a tie"
+play_again: "Do you want to play again? (y/n)"
