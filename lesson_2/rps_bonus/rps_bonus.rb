@@ -6,16 +6,16 @@ LETTER_TO_CHOICE = {
   'p' => 'paper',
   'sc' => 'scissors',
   'l' => 'lizard',
-  'sp' => 'spock',
+  'sp' => 'spock'
 }
 
 # moves as keys; moves they beat as values
 WIN_HASH = {
-  'rock' => ['scissors','lizard'],
+  'rock' => ['scissors', 'lizard'],
   'paper' => ['rock', 'spock'],
-  'scissors'=> ['paper', 'lizard'],
+  'scissors' => ['paper', 'lizard'],
   'lizard' => ['spock', 'paper'],
-  'spock' => ['scissors','rock']
+  'spock' => ['scissors', 'rock']
 }
 
 require 'yaml'
@@ -30,10 +30,10 @@ def win?(first, second)
 end
 
 # accepts both single letter input and full words
-def get_player_choice()
+def get_player_choice
   choice = Kernel.gets.chomp.downcase
-  if VALID_CHOICES.include?(choice) or LETTER_TO_CHOICE.key?(choice)
-    return standardize_user_choice(choice)
+  if VALID_CHOICES.include?(choice) || LETTER_TO_CHOICE.key?(choice)
+    standardize_user_choice(choice)
   elsif choice == 's'
     prompt(MESSAGES['ambigious_input'])
   else
@@ -43,11 +43,11 @@ end
 
 def get_results(choice, computer_choice)
   if win?(choice, computer_choice)
-    return 'player'
+    'player'
   elsif win?(computer_choice, choice)
-    return 'computer'
+    'computer'
   else
-    return 'tie'
+    'tie'
   end
 end
 
@@ -65,40 +65,32 @@ end
 # converts single letter to full word
 def standardize_user_choice(choice)
   if LETTER_TO_CHOICE.key?(choice)
-    return LETTER_TO_CHOICE[choice]
+    LETTER_TO_CHOICE[choice]
   else
-    return choice
+    choice
   end
 end
 
 def update_score(result, user, score)
-  if result == user
-    score += 1
-  else
-    score
-  end
+  score += 1 if result == user
+  score
 end
 
-
 def grand_winner?(player_wins, computer_wins)
-  if [player_wins, computer_wins].max >= 5
-    true
-  else
-    false
-  end
+  [player_wins, computer_wins].max >= 5
 end
 
 def display_grand_winner(player_wins)
   grand_winner = nil
   if player_wins >= 5
-      grand_winner ='player'
+    grand_winner = 'player'
   else
-      grand_winner ='computer'
+    grand_winner = 'computer'
   end
   prompt("Congratulations to the grand winner: #{grand_winner}!")
 end
 
-def play_again?()
+def play_again?
   prompt(MESSAGES['play_again'])
   gets.chomp.downcase == 'y'
 end
@@ -115,7 +107,7 @@ loop do
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     choice = get_player_choice()
-    break if choice =! nil
+    break if !choice.nil?
   end
 
   computer_choice = VALID_CHOICES.sample
