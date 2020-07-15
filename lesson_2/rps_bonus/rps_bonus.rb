@@ -1,4 +1,5 @@
 VALID_CHOICES = %w(rock paper scissors lizard spock)
+WIN_THRESHOLD = 5
 
 # maps letter input to choices
 LETTER_TO_CHOICE = {
@@ -41,6 +42,11 @@ def get_player_choice
   end
 end
 
+def retrieve_user_input
+    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
+    get_player_choice
+end
+
 def get_results(choice, computer_choice)
   if win?(choice, computer_choice)
     'player'
@@ -51,7 +57,7 @@ def get_results(choice, computer_choice)
   end
 end
 
-def displays_results(result)
+def displays_results(result, choice, computer_choice)
   case result
   when 'player'
     prompt(MESSAGES['win'])
@@ -60,6 +66,7 @@ def displays_results(result)
   when 'tie'
     prompt(MESSAGES['tie'])
   end
+    prompt("You chose #{choice}; Computer chose #{computer_choice}")
 end
 
 # converts single letter to full word
@@ -71,18 +78,19 @@ def standardize_user_choice(choice)
   end
 end
 
-def update_score(result, user, score)
-  score += 1 if result == user
-  score
+def update_score(result, score)
+  unless result == 'tie'
+    score[result] += 1
+  end
 end
 
-def grand_winner?(player_wins, computer_wins)
-  [player_wins, computer_wins].max >= 5
+def grand_winner?(score)
+  [score['player'], score['computer']].max >= WIN_THRESHOLD
 end
 
-def display_grand_winner(player_wins)
+def display_grand_winner(score)
   grand_winner = nil
-  if player_wins >= 5
+  if score['player'] >= WIN_THRESHOLD
     grand_winner = 'player'
   else
     grand_winner = 'computer'
@@ -95,36 +103,36 @@ def play_again?
   gets.chomp.downcase == 'y'
 end
 
+def reset_score(score)
+  score.each_key{|k| score[k] = 0}
+end
+
 choice = ''
-player_wins = 0
-computer_wins = 0
+score = {
+  'player' => 0,
+  'computer' => 0
+}
 
 system "clear"
 prompt(MESSAGES['welcome'])
 
 loop do
-  prompt("Current Score is Player: #{player_wins} Computer: #{computer_wins}")
+  prompt("Current Score is Player: #{score['player']} Computer: #{score['computer']}")
   loop do
-    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
-    choice = get_player_choice()
+    choice = retrieve_user_input
     break if !choice.nil?
   end
 
   computer_choice = VALID_CHOICES.sample
 
-  prompt("You chose #{choice}; Computer chose #{computer_choice}")
   results = get_results(choice, computer_choice)
-  displays_results(choice)
+  displays_results(results, choice, computer_choice)
 
-  player_wins = update_score(results, 'player', player_wins)
-  computer_wins = update_score(results, 'computer', computer_wins)
+  update_score(results, score)
 
-  if grand_winner?(player_wins, computer_wins)
-    display_grand_winner(player_wins)
-
-    player_wins = 0
-    computer_wins = 0
-
+  if grand_winner?(score)
+    display_grand_winner(score)
+    reset_score(score)
     break unless play_again?
   end
 end
