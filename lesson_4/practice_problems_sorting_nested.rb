@@ -43,4 +43,18 @@ hsh2 = {['a'] => {a: ['1', :two, 3], b: 4}, 'b' => 5}
 arr1[1][1] = 4
 arr2[2] = 4
 hsh1[:first][2][0] = 4
-hsh2[['a']][:a][2] = 4 
+hsh2[['a']][:a][2] = 4
+
+# sum male ages
+
+munsters = {
+  "Herman" => { "age" => 32, "gender" => "male" },
+  "Lily" => { "age" => 30, "gender" => "female" },
+  "Grandpa" => { "age" => 402, "gender" => "male" },
+  "Eddie" => { "age" => 10, "gender" => "male" },
+  "Marilyn" => { "age" => 23, "gender" => "female"}
+}
+
+munsters.select_by |
+munsters select do ||
+end
