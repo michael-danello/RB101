@@ -1,0 +1,11 @@
+welcome : "Ready to make some money? y/n"
+no_play: "Nothing ventured nothing gained. See you next time"
+
+invalid_choice: "That's not a valid choice"
+
+hit_again: 'Would you like to hit again (y/n)?'
+
+player_bust: 'You just busted!'
+computer_bust: 'Computer just busted'
+
+play_again: 'Want to play again? (y/n)'

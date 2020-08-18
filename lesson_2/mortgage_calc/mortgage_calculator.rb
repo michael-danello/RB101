@@ -78,6 +78,7 @@ loop do
   prompt(format(MESSAGES["calc_message"], apr: apr, loan_months: loan_months,
   loan_total: loan_total, monthly: monthly))
   calc_again = retrieve_input("calc_again")
+
   if calc_again.downcase == 'y'
     system("clear")
     next

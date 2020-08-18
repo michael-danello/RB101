@@ -181,6 +181,7 @@ end
 
 
 #"f65c57f6-a6aa-17a8-faa1-a67f2dc9fa91" uuid example
+# could have used each with index
 def create_uuid()
   chars = ("a".."z").to_a + ("0".."9").to_a
   u_arr = []
